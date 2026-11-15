@@ -40,17 +40,31 @@ export default function Dashboard() {
   }, [load]);
 
   // Pending state is bounded by the 10 s request timeout in api.js.
-  async function act(path) {
+  async function act(path, body) {
     setPending(true);
     setActionError('');
     try {
-      await request(path, { method: 'POST' });
+      await request(path, { method: 'POST', ...(body !== undefined ? { body } : {}) });
       await load();
     } catch (err) {
       setActionError(err.message || 'Action failed');
     } finally {
       setPending(false);
     }
+  }
+
+  // Reset deletes data, so ask first. Cancel does nothing.
+  function confirmReset() {
+    const confirmed = window.confirm(
+      'Reset demo data?\n\nThis will:\n' +
+        '- Delete all incidents\n' +
+        '- Delete all recovery tasks\n' +
+        '- Delete all advisories\n' +
+        '- Delete all notifications\n' +
+        '- Set all service statuses back to operational\n\n' +
+        'This cannot be undone.'
+    );
+    if (confirmed) act('/incidents/reset', { confirm: 'RESET_DEMO_DATA' });
   }
 
   const incident = incidentData?.incident || null;
@@ -63,7 +77,7 @@ export default function Dashboard() {
         <button onClick={() => act('/incidents/simulate')} disabled={pending}>
           Simulate attack
         </button>{' '}
-        <button onClick={() => act('/incidents/reset')} disabled={pending}>
+        <button onClick={confirmReset} disabled={pending}>
           Reset
         </button>{' '}
         <button onClick={load} disabled={loading}>

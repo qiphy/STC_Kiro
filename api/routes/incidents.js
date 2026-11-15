@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getSupabase } from '../lib/supabase.js';
 import { scoreServices } from '../lib/priority.js';
+import { checkResetAllowed } from '../lib/resetGuard.js';
 
 const router = Router();
 
@@ -70,8 +71,16 @@ router.post('/incidents/simulate', async (req, res, next) => {
 });
 
 // POST /api/incidents/reset
+// DESTRUCTIVE: deletes all incidents, tasks, advisories and notifications.
+// Only runs when the server explicitly allows it (see api/lib/resetGuard.js).
+// Nothing else in the API calls reset_demo().
 router.post('/incidents/reset', async (req, res, next) => {
   try {
+    const check = checkResetAllowed(process.env, req.body);
+    if (!check.ok) {
+      console.warn(check.log);
+      return res.status(check.status).json({ error: check.error });
+    }
     const { error } = await getSupabase().rpc('reset_demo');
     if (error) throw error;
     res.json({ ok: true });

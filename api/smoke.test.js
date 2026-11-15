@@ -1,9 +1,17 @@
 import { describe, it, expect } from 'vitest';
 
-// Demo-flow smoke test. Run against a live local API with seeded data:
+// Smoke tests against a live local API. Run with:
 //   SMOKE_API_URL=http://localhost:3001 npx vitest --run api/smoke.test.js
-// Skipped when SMOKE_API_URL is unset. Mutates demo data, then resets it.
+//
+// Two groups:
+//   1. Read-only checks. Safe on any database. Run whenever SMOKE_API_URL is set.
+//   2. Demo-flow test. It simulates an incident, completes tasks and calls
+//      reset, so it destroys data. It only runs when the SERVER reports that
+//      reset is allowed (ALLOW_DEMO_RESET=true and RESET_ALLOWED_PROJECT_REF
+//      matching the connected project), which means a dedicated test database.
+//      Otherwise it is skipped, and your development data is never touched.
 const BASE = (process.env.SMOKE_API_URL || '').replace(/\/$/, '');
+const CONFIRM = { confirm: 'RESET_DEMO_DATA' };
 
 async function call(method, path, body) {
   const res = await fetch(`${BASE}${path}`, {
@@ -20,11 +28,65 @@ async function call(method, path, body) {
   return { status: res.status, json };
 }
 
-describe.skipIf(!BASE)('demo flow smoke test', () => {
+// Asks the server whether reset is allowed WITHOUT resetting anything: the
+// server checks its own safeguards before it looks at the confirmation, so a
+// request with no confirmation is answered 403 (not allowed) or 400 (allowed,
+// but not confirmed). Neither deletes data.
+async function resetIsAllowedOnServer() {
+  if (!BASE) return false;
+  try {
+    const { status } = await call('POST', '/api/incidents/reset', {});
+    return status === 400;
+  } catch {
+    return false;
+  }
+}
+
+const DESTRUCTIVE_ENABLED = await resetIsAllowedOnServer();
+if (BASE && !DESTRUCTIVE_ENABLED) {
+  console.warn(
+    '[smoke] Demo-flow test SKIPPED: the server does not allow reset, so it is not a dedicated test ' +
+      'database. To run it, point a test server at a separate Supabase project and set ' +
+      'ALLOW_DEMO_RESET=true and RESET_ALLOWED_PROJECT_REF=<that project ref>.'
+  );
+}
+
+describe.skipIf(!BASE)('read-only API checks', () => {
+  it('lists services as an array', async () => {
+    const { status, json } = await call('GET', '/api/services');
+    expect(status).toBe(200);
+    expect(Array.isArray(json)).toBe(true);
+  });
+
+  it('lists technicians as an array', async () => {
+    const { status, json } = await call('GET', '/api/technicians');
+    expect(status).toBe(200);
+    expect(Array.isArray(json)).toBe(true);
+  });
+
+  it('returns the active incident shape', async () => {
+    const { status, json } = await call('GET', '/api/incidents/active');
+    expect(status).toBe(200);
+    expect(Array.isArray(json.priority)).toBe(true);
+  });
+
+  it('reset without confirmation never deletes anything (403 or 400)', async () => {
+    const { status } = await call('POST', '/api/incidents/reset', {});
+    expect([400, 403]).toContain(status);
+  });
+
+  it('unknown /api path returns JSON 404 with error', async () => {
+    const { status, json } = await call('GET', '/api/does-not-exist');
+    expect(status).toBe(404);
+    expect(typeof json.error).toBe('string');
+  });
+});
+
+describe.skipIf(!DESTRUCTIVE_ENABLED)('demo flow (destructive, test database only)', () => {
   const state = {};
 
   it('starts healthy: all services operational', async () => {
-    await call('POST', '/api/incidents/reset');
+    await call('POST', '/api/incidents/reset', CONFIRM);
     const { status, json } = await call('GET', '/api/services');
     expect(status).toBe(200);
     expect(Array.isArray(json)).toBe(true);
@@ -119,15 +181,9 @@ describe.skipIf(!BASE)('demo flow smoke test', () => {
 
   it('reset succeeds twice', async () => {
     for (let i = 0; i < 2; i++) {
-      const { status, json } = await call('POST', '/api/incidents/reset');
+      const { status, json } = await call('POST', '/api/incidents/reset', CONFIRM);
       expect(status).toBe(200);
       expect(json.ok).toBe(true);
     }
-  });
-
-  it('unknown /api path returns JSON 404 with error', async () => {
-    const { status, json } = await call('GET', '/api/does-not-exist');
-    expect(status).toBe(404);
-    expect(typeof json.error).toBe('string');
   });
 });

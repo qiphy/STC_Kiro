@@ -68,7 +68,7 @@ This section is the contract for the API (P3) and for anyone calling it. It matc
 | GET | `/api/services` | 200 array | 500 |
 | GET | `/api/incidents/active` | 200 object | 500 |
 | POST | `/api/incidents/simulate` | 200 incident | 409, 500 |
-| POST | `/api/incidents/reset` | 200 `{ "ok": true }` | 500 |
+| POST | `/api/incidents/reset` | 200 `{ "ok": true }` | 400, 403, 500 |
 | GET | `/api/tasks` | 200 array | 500 |
 | POST | `/api/tasks` | 201 task | 400, 500 |
 | PATCH | `/api/tasks/:id` | 200 task | 400, 404, 500 |
@@ -129,7 +129,15 @@ Request: no body. Calls `rpc('simulate_attack')`. Response 200: the incident row
 
 ### POST /api/incidents/reset
 
-Request: no body. Calls `rpc('reset_demo')`. Response 200 `{ "ok": true }` (defined here; the client ignores the body). Succeeds with no change when nothing is active, so calling it twice is fine. Status codes: 200, 500.
+Request body: `{ "confirm": "RESET_DEMO_DATA" }`. Calls `rpc('reset_demo')`. Response 200 `{ "ok": true }` (the client ignores the body). Succeeds with no change when nothing is active, so calling it twice is fine. Status codes: 200, 400, 403, 500.
+
+Reset deletes all incidents, tasks, advisories and notifications, so it is blocked unless the server allows it:
+
+- `ALLOW_DEMO_RESET=true` must be set on the server. It is off by default, and the endpoint answers 403 `Reset is disabled on this server`.
+- `RESET_ALLOWED_PROJECT_REF` must equal the project ref of `SUPABASE_URL` (the `abcd1234` in `https://abcd1234.supabase.co`). Otherwise 403 `Reset is not allowed for this database`. Leave both unset on your main development or production project.
+- The body must contain the confirmation above, otherwise 400.
+
+Nothing else in the API calls `reset_demo()`. The Dashboard Reset button asks for confirmation first and sends the confirmation field.
 
 ### GET /api/tasks
 
