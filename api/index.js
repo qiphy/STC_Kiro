@@ -1,6 +1,9 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import servicesRouter from './routes/services.js';
+import techniciansRouter from './routes/technicians.js';
+import incidentsRouter from './routes/incidents.js';
 
 const app = express();
 
@@ -14,8 +17,10 @@ app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });
 
-// Routes are mounted here as they are built (see .kiro/steering/structure.md):
-// app.use('/api/services', servicesRouter);
+// Each router defines its own full path under /api (e.g. /services, /incidents/active).
+app.use('/api', servicesRouter);
+app.use('/api', techniciansRouter);
+app.use('/api', incidentsRouter);
 
 app.use('/api', (req, res) => {
   res.status(404).json({ error: 'Not found' });
@@ -24,6 +29,9 @@ app.use('/api', (req, res) => {
 // Never send stack traces or internals to the client.
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  if (err.type === 'entity.parse.failed' || err.type === 'entity.too.large') {
+    return res.status(400).json({ error: 'Invalid request body' });
+  }
   console.error(err.message);
   res.status(500).json({ error: 'Internal server error' });
 });
