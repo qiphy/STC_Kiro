@@ -1,5 +1,8 @@
 -- Fictional demo data only. No real bank names, customers or credentials.
 -- Run after schema.sql. Safe to re-run.
+-- Single transaction: any failure leaves no partial rows.
+
+begin;
 
 truncate notifications, advisories, tasks, incident_services, incidents,
   service_dependencies, alt_channels, technicians, services restart identity cascade;
@@ -38,3 +41,5 @@ insert into alt_channels (name, type, contact, verified) values
 
 select setval(pg_get_serial_sequence('services', 'id'),    (select max(id) from services));
 select setval(pg_get_serial_sequence('technicians', 'id'), (select max(id) from technicians));
+
+commit;

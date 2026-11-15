@@ -7,11 +7,9 @@ import incidentsRouter from './routes/incidents.js';
 
 const app = express();
 
-// The Vite dev server proxies /api, so CORS is only needed for local dev tools.
-if (process.env.NODE_ENV !== 'production') {
-  app.use(cors());
-}
-app.use(express.json());
+// The browser talks to the Vite origin (which proxies /api); allow only that origin.
+app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }));
+app.use(express.json({ limit: '100kb' }));
 
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });

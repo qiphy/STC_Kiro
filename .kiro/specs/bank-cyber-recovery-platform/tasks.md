@@ -21,8 +21,8 @@ How the work runs in parallel:
 
 ## Tasks
 
-- [ ] 1. Foundation and contracts (P1 leads, build order step 1)
-  - [ ] 1.1 [P1] Create repo skeleton and shared config
+- [x] 1. Foundation and contracts (P1 leads, build order step 1)
+  - [x] 1.1 [P1] Create repo skeleton and shared config
     - Create the folders and empty files listed in `structure.md`: `api/index.js`, `api/routes/*.js` (each an Express Router stub), `api/lib/*.js` including `status.js`, `client/` Vite app shell, `supabase/`.
     - Root `package.json` with dependencies (react, react-router-dom, express, @supabase/supabase-js, cors, dotenv, vite, concurrently, vitest, fast-check) and scripts `dev` (Vite and API together, non-zero exit naming the failed process), `build`, `test` (`vitest --run`). No ORM, state library or chart library.
     - `api/index.js`: Express app, JSON body limit 100 KB, mount all routers under `/api`, malformed JSON mapped to 400 `{ "error" }`, JSON 404 for unknown `/api/*`, central error handler returning a generic 500, startup check that exits naming missing `SUPABASE_URL` or `SUPABASE_SERVICE_ROLE_KEY` without printing values, CORS limited to the Vite origin, `app.listen` only when `VERCEL` is unset, default export of the app.
@@ -30,17 +30,17 @@ How the work runs in parallel:
     - `.env.example` with empty values for `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `LLM_API_KEY`, `VITE_API_BASE_URL`. Confirm `.env` is in `.gitignore`.
     - _Requirements: 13.2, 13.4, 13.6, 13.7, 14.1, 14.2, 14.4, 14.5, 14.6, 17.1, 17.2, 17.3, 17.5, 18.5, 18.6, 18.7_
 
-  - [ ] 1.2 [P1] Write `supabase/schema.sql`
+  - [x] 1.2 [P1] Write `supabase/schema.sql`
     - Tables `services` (with `restored_by_tasks`), `service_dependencies` (composite key, no self-dependency check), `technicians`, `incidents` (partial unique index on active status), `incident_services`, `tasks`, `advisories`, `notifications`, `alt_channels`, with check constraints and `on delete cascade` for incident links.
     - Postgres functions `simulate_attack()` (fixed preset of five services and their tasks, raises when an incident is active), `reset_demo()`, and `update_task_and_recompute(task_id, patch jsonb)`, each in one transaction.
     - _Requirements: 2.4, 2.5, 4.2, 4.3, 4.4, 4.6, 4.8, 4.9, 12.4, 12.5, 12.6, 12.7, 12.8, 15.1_
 
-  - [ ] 1.3 [P1] Write `supabase/seed.sql`
+  - [x] 1.3 [P1] Write `supabase/seed.sql`
     - Seven required services plus one database service, each with criticality and customer impact 1 to 5 and status `operational`.
     - At least 6 acyclic dependencies including Mobile App → Core Banking → database service. At least 3 technicians and 3 verified alt channels. All data fictional. No incidents, tasks, advisories or notifications. Wrap in one transaction so a failure leaves no partial rows.
     - _Requirements: 2.6, 15.2, 15.3, 15.4, 15.5, 15.6, 15.8_
 
-  - [ ] 1.4 [P1] Write the API contract section in `README.md`
+  - [x] 1.4 [P1] Write the API contract section in `README.md`
     - List every endpoint with method, path, request body, response shape, and status codes (400, 404, 409, 500) copied from `design.md`, using the `{ "error": "message" }` error format.
     - Include the run steps (schema, seed, `.env`, `npm run dev`) as a first draft. P2, P3 and P4 code against this section.
     - _Requirements: 13.3, 16.10_
@@ -113,6 +113,13 @@ How the work runs in parallel:
   - [x] 4.3 [P2] Build `Dashboard.jsx`
     - Service cards with status, severity and dependency names (or a "no dependencies" note), priority list (rank, name, score, reason), "no active incident" message, Simulate and Reset buttons disabled while pending, manual refresh, error with retry that keeps old data, empty-state message, dependency load error shown without hiding other content, cycle warning when `cycleDetected` is true.
     - _Requirements: 1.1, 1.4, 1.5, 1.6, 2.1, 2.2, 2.3, 2.7, 3.6, 3.8, 3.9, 4.1, 4.5, 4.7, 4.10, 16.1, 16.2_
+
+  - [x] 4.4 [P4] Verify the frontend builds and behaves per requirements
+    - Depends on tasks 4.3, 5.2, 5.3 and 7.5 being complete. This is a verification task: report defects, do not fix them.
+    - Run `npm run build` and record any errors or warnings.
+    - Start the Vite dev server with the API not running, and check: the role switcher shows manager (Dashboard, Communication, Recovery), technician (My Tasks) and customer (Status page), and defaults to manager; `/status` loads without a role selected; the Dashboard shows an error with a retry control and keeps its layout; `CustomerStatus` shows "status unavailable" and the security tips; badge colours are unique per value in `StatusBadge` and `SeverityBadge`.
+    - Report each defect as a list entry with file and line number. Make no code changes.
+    - _Requirements: 1.2, 1.5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 9.8, 9.9, 18.5_
 
 - [ ] 5. Tasks, Recovery and My Tasks (P3 API, P2 UI; build order step 4)
   - [ ] 5.1 [P3] Implement `tasks.js` routes
@@ -225,7 +232,7 @@ How the work runs in parallel:
     { "id": 2, "tasks": ["2.4", "2.5", "2.7", "4.2", "5.1", "5.4", "7.1"] },
     { "id": 3, "tasks": ["2.8", "4.3", "5.2", "5.3", "5.5", "7.2", "7.3", "7.6"] },
     { "id": 4, "tasks": ["2.9", "5.6", "7.4", "7.5", "7.7", "7.10"] },
-    { "id": 5, "tasks": ["2.10", "7.8"] },
+    { "id": 5, "tasks": ["2.10", "4.4", "7.8"] },
     { "id": 6, "tasks": ["2.11", "7.9"] },
     { "id": 7, "tasks": ["9.1", "9.2", "9.3"] }
   ]
