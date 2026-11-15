@@ -99,18 +99,18 @@ How the work runs in parallel:
 - [ ] 3. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 4. Client shell and Dashboard (P2; build order step 3)
-  - [ ] 4.1 [P2] Build the client shell
+- [x] 4. Client shell and Dashboard (P2; build order step 3)
+  - [x] 4.1 [P2] Build the client shell
     - `main.jsx`, `App.jsx` with `useState` role switcher (`manager`, `technician`, `customer`, default `manager`, not persisted), role-based nav, redirect to the role's default page when the current page is not allowed, `/status` always reachable without a role. Routes for all five pages with minimal placeholder page files that later tasks replace.
     - `api.js`: `request(path, options)` using `VITE_API_BASE_URL || '/api'`, 10 s `AbortController` timeout, throws `Error` with the API `error` message.
     - `styles.css` with base layout and badge colours.
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 14.2, 14.3, 14.8, 18.5_
 
-  - [ ] 4.2 [P2] Build shared components
+  - [x] 4.2 [P2] Build shared components
     - `StatusBadge` and `SeverityBadge` (text badges, unique colour per value), `ProgressBar` (div width, handles 0%), `ServiceCard`, `TaskRow`.
     - _Requirements: 1.2, 12.3, 18.7_
 
-  - [ ] 4.3 [P2] Build `Dashboard.jsx`
+  - [x] 4.3 [P2] Build `Dashboard.jsx`
     - Service cards with status, severity and dependency names (or a "no dependencies" note), priority list (rank, name, score, reason), "no active incident" message, Simulate and Reset buttons disabled while pending, manual refresh, error with retry that keeps old data, empty-state message, dependency load error shown without hiding other content, cycle warning when `cycleDetected` is true.
     - _Requirements: 1.1, 1.4, 1.5, 1.6, 2.1, 2.2, 2.3, 2.7, 3.6, 3.8, 3.9, 4.1, 4.5, 4.7, 4.10, 16.1, 16.2_
 
@@ -119,11 +119,11 @@ How the work runs in parallel:
     - `GET /api/tasks` with service and technician info. `POST /api/tasks` validates title (1 to 200) and service id, optional technician, starts at `todo`, returns 400 for a missing reference. `PATCH /api/tasks/:id` updates only supplied fields, validates status, returns 404 for a missing task, and calls the `update_task_and_recompute` RPC so service and incident status stay in sync.
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.8, 10.9, 10.10, 10.11, 12.4, 12.5, 12.6, 12.7, 12.8_
 
-  - [ ] 5.2 [P2] Build `Recovery.jsx`
+  - [x] 5.2 [P2] Build `Recovery.jsx`
     - Overall and per-service progress bars (percentages from done over total, 0% when empty), tasks grouped by service, create-task form (title, service, technician) that keeps entered values on error, assignee and status controls sending only changed fields, API errors displayed, "post restored advisory and notification" control when the incident is resolved (dismissable).
     - _Requirements: 10.2, 10.3, 10.4, 10.7, 10.12, 12.1, 12.2, 12.3, 12.9, 16.3, 16.7_
 
-  - [ ] 5.3 [P2] Build `MyTasks.jsx`
+  - [x] 5.3 [P2] Build `MyTasks.jsx`
     - Technician selector, tasks for the chosen technician with title, service name and status, empty state, status select sending `PATCH`, error message with previous status kept on failure.
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6_
 
@@ -157,11 +157,11 @@ How the work runs in parallel:
     - `GET /api/public/status` without auth, using `toPublicStatus` with services, the latest published advisory, verified channels and tips.
     - _Requirements: 7.3, 9.1, 9.2, 9.7_
 
-  - [ ] 7.4 [P2] Build `Communication.jsx`
+  - [x] 7.4 [P2] Build `Communication.jsx`
     - Generate draft, editable form that is not saved until the manager saves as draft or published, fallback notice, validation errors shown with edited text kept, notify form with a confirm prompt (cancel sends nothing and keeps the form), notification log newest first with the new entry added at the top, error handling without adding a log entry, "restored" advisory shortcut after resolution.
     - _Requirements: 6.1, 6.4, 6.5, 6.6, 6.7, 8.1, 8.5, 8.6, 8.7, 8.8, 8.9, 12.9, 16.4, 16.5, 16.9_
 
-  - [ ] 7.5 [P2] Build `CustomerStatus.jsx`
+  - [x] 7.5 [P2] Build `CustomerStatus.jsx`
     - Public page with service names and statuses, latest published advisory or "No active advisory", verified channels, security tips, 30 s polling, keeps old data and shows a refresh error on failure, first-load failure shows "status unavailable" with the tips and keeps retrying.
     - _Requirements: 9.3, 9.4, 9.5, 9.6, 9.8, 9.9, 16.6_
 
