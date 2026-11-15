@@ -91,7 +91,7 @@ How the work runs in parallel:
     - **Validates: Requirements 3.4**
     - Include service names up to 200 characters.
 
-  - [ ] 2.11 [P4] Write property test for cycles
+  - [-] 2.11 [P4] Write property test for cycles
     - **Property 5: Cycles are reported and every service is still ranked**
     - **Validates: Requirements 3.8, 3.9**
     - Use an independent cycle check in the test to compare with `cycleDetected`.
