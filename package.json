@@ -15,7 +15,7 @@
     "build": "vite build client",
     "check:secrets": "node scripts/checkSecrets.js",
     "preview": "vite preview client",
-    "test": "node --test \"api/**/*.test.js\""
+    "test": "node --test \"server/**/*.test.js\""
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.0",

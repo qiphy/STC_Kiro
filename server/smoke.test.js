@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 
 // Demo-flow smoke test. Run against a live local API with seeded data:
-//   SMOKE_API_URL=http://localhost:3001 npx vitest --run api/smoke.test.js
+//   SMOKE_API_URL=http://localhost:3001 npx vitest --run server/smoke.test.js
 // Skipped when SMOKE_API_URL is unset. Mutates demo data, then resets it.
 const BASE = (process.env.SMOKE_API_URL || '').replace(/\/$/, '');
 

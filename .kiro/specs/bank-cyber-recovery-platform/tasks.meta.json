@@ -170,6 +170,25 @@
         "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
         "timestamp": 1794723373356
       }
+    ],
+    "12.1 [P1] Move API routes and lib out of `api/` so only `api/index.js` is a serverless function": [
+      {
+        "executionId": "b9fd934c-3011-4356-9cdf-809c5c3e1e5e",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794724270966
+      },
+      {
+        "executionId": "b9fd934c-3011-4356-9cdf-809c5c3e1e5e",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794724433163
+      }
+    ],
+    "12. Vercel Hobby function limit fix (P1)": [
+      {
+        "executionId": "b9fd934c-3011-4356-9cdf-809c5c3e1e5e",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794724433206
+      }
     ]
   }
 }

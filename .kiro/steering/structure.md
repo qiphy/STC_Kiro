@@ -1,13 +1,14 @@
 # Project Structure
 
-One repository, one Vercel project. Frontend in `client/`, API in `api/`.
+One repository, one Vercel project. Frontend in `client/`, API entry in `api/`, API code in `server/`.
 
 ```
 STC_Kiro/
 ├── .kiro/
 │   └── steering/            product.md, tech.md, structure.md
-├── api/                     Vercel serverless entry + Express app
-│   ├── index.js             exports the Express app for Vercel
+├── api/                     Vercel serverless entry (only function file)
+│   └── index.js             exports the Express app for Vercel
+├── server/                  Express code and tests, kept out of api/ so Vercel counts one function
 │   ├── routes/              one file per resource
 │   │   ├── services.js
 │   │   ├── incidents.js
@@ -16,11 +17,12 @@ STC_Kiro/
 │   │   ├── advisories.js
 │   │   ├── notifications.js
 │   │   └── public.js
-│   └── lib/
-│       ├── supabase.js      Supabase client (service key, server only)
-│       ├── priority.js      rule-based priority scoring
-│       ├── advisory.js      template advisory, optional LLM call
-│       └── validate.js      small request validation helpers
+│   ├── lib/
+│   │   ├── supabase.js      Supabase client (service key, server only)
+│   │   ├── priority.js      rule-based priority scoring
+│   │   ├── advisory.js      template advisory, optional LLM call
+│   │   └── validate.js      small request validation helpers
+│   └── smoke.test.js
 ├── client/                  React app (Vite)
 │   ├── index.html
 │   └── src/
@@ -47,7 +49,7 @@ STC_Kiro/
 
 ## Rules
 - Pages map to the three features: Dashboard, Communication, Recovery. `CustomerStatus` is the public page.
-- Business logic (scoring, advisory generation) goes in `api/lib/`, not in routes or React components.
+- Business logic (scoring, advisory generation) goes in `server/lib/`, not in routes or React components.
 - Routes stay thin: validate input, call Supabase or a lib function, return JSON.
 - The frontend calls the backend only through `client/src/api.js`.
 - Components are small and reusable. No component library, no global state library.

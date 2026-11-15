@@ -243,6 +243,14 @@ How the work runs in parallel:
     - If the tasks request fails, still show the technician list (and the rest of the page) with an error message and retry control. A failed technicians request does not hide the tasks.
     - _Requirements: 11.1, 11.2, 11.3, 11.6_
 
+- [x] 12. Vercel Hobby function limit fix (P1)
+  - [x] 12.1 [P1] Move API routes and lib out of `api/` so only `api/index.js` is a serverless function
+    - Vercel Hobby allows 12 serverless functions and every `.js` file under `api/` counts (16 now). Move `api/routes/`, `api/lib/` and `api/smoke.test.js` to `server/routes/`, `server/lib/` and `server/smoke.test.js`.
+    - Update the imports in `api/index.js` to `../server/...`, the `test` script glob in `package.json` to `server/**/*.test.js`, and path mentions in `README.md` and `.kiro/steering/structure.md`.
+    - Check any other references (`scripts/checkSecrets.js`, `vercel.json`). File paths written in this `tasks.md` are descriptive only and may stay.
+    - Verify with `npm test`, `npm run build`, `npm run check:secrets`, and a local API start that returns data from `/api/services` and a JSON 404 for `/api/nope`.
+    - _Requirements: 13.6, 17.1, 17.2_
+
 ## Notes
 
 - Tasks marked with `*` are optional and can be skipped for faster MVP. Properties 1 to 5 (priority scorer) are required and are not marked optional.
@@ -268,7 +276,8 @@ How the work runs in parallel:
     { "id": 9, "tasks": ["11.2"] },
     { "id": 10, "tasks": ["11.3"] },
     { "id": 11, "tasks": ["11.4"] },
-    { "id": 12, "tasks": ["11.5"] }
+    { "id": 12, "tasks": ["11.5"] },
+    { "id": 13, "tasks": ["12.1"] }
   ]
 }
 ```

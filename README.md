@@ -275,7 +275,7 @@ Deploy as one Vercel project. `vercel.json` sends `/api/*` to `api/index.js` and
    - `<url>/status` loads the customer status page.
    - Refreshing the browser on `<url>/recovery` still loads the app (no 404).
 
-Troubleshooting: if the Vercel build treats the `api/**/*.test.js` files as serverless functions and fails, add a `.vercelignore` file at the repository root that lists those test files (for example `api/**/*.test.js`) and redeploy. Add it only if you hit this problem.
+Note: API code and tests live in `server/`, so `api/index.js` is the only serverless function (Vercel Hobby allows 12).
 
 ## Demo script
 

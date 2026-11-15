@@ -1,13 +1,13 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import servicesRouter from './routes/services.js';
-import techniciansRouter from './routes/technicians.js';
-import incidentsRouter from './routes/incidents.js';
-import tasksRouter from './routes/tasks.js';
-import advisoriesRouter from './routes/advisories.js';
-import notificationsRouter from './routes/notifications.js';
-import publicRouter from './routes/public.js';
+import servicesRouter from '../server/routes/services.js';
+import techniciansRouter from '../server/routes/technicians.js';
+import incidentsRouter from '../server/routes/incidents.js';
+import tasksRouter from '../server/routes/tasks.js';
+import advisoriesRouter from '../server/routes/advisories.js';
+import notificationsRouter from '../server/routes/notifications.js';
+import publicRouter from '../server/routes/public.js';
 
 const app = express();
 
