@@ -91,7 +91,7 @@ How the work runs in parallel:
     - **Validates: Requirements 3.4**
     - Include service names up to 200 characters.
 
-  - [-] 2.11 [P4] Write property test for cycles
+  - [x] 2.11 [P4] Write property test for cycles
     - **Property 5: Cycles are reported and every service is still ranked**
     - **Validates: Requirements 3.8, 3.9**
     - Use an independent cycle check in the test to compare with `cycleDetected`.
@@ -199,7 +199,7 @@ How the work runs in parallel:
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 9. Integration, deploy and demo (build order step 6)
-  - [ ] 9.1 [P4] Write an API smoke test for the demo flow
+  - [x] 9.1 [P4] Write an API smoke test for the demo flow
     - `api/smoke.test.js` runs against a local API URL from an env variable and is skipped when it is unset. Steps follow the demo script: services all operational, simulate (second call returns 409), priority list present, create and assign a task, save a draft advisory (hidden from public status), publish, send a notification, mark tasks `done` and check progress and service status, reset twice, unknown `/api/*` path returns JSON 404.
     - _Requirements: 4.2, 4.4, 4.8, 9.2, 12.4, 16.1, 16.2, 16.3, 16.4, 16.5, 16.6, 16.7, 16.8, 17.5_
 
