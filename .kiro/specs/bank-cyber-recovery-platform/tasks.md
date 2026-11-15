@@ -214,31 +214,31 @@ How the work runs in parallel:
 - [ ] 10. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 11. Technician recovery actions (P2, simulated; added after MVP)
-  - [-] 11.1 [P2] Add a per-service runbook panel to My Tasks
+- [x] 11. Technician recovery actions (P2, simulated; added after MVP)
+  - [x] 11.1 [P2] Add a per-service runbook panel to My Tasks
     - In `client/src/pages/MyTasks.jsx`, plus a small component such as `client/src/components/Runbook.jsx`, show a collapsible runbook under each task.
     - Use a fixed static list of recovery steps per service: Core Database, Core Banking, Online Banking, Mobile App, ATM Network, Card Payments, Fund Transfer, Customer Support Line, with a generic fallback for any other service name.
     - No new libraries, no schema changes, no API changes.
     - _Requirements: 11.2, 11.3_
 
-  - [ ] 11.2 [P2] Add simulated action buttons per task
+  - [x] 11.2 [P2] Add simulated action buttons per task
     - In `client/src/pages/MyTasks.jsx`, add "Run restore", "Verify" and "Re-enable" buttons per task (small component under `client/src/components/`, for example `SimulatedActions.jsx`).
     - Each button runs a client-side timed progress step of about 2 seconds, disabled while running, and labelled "Simulated, no real system is touched".
     - The first action on a task moves it to `in_progress` through the existing `PATCH /api/tasks/:id`. Later actions do not send another request. On failure, keep the previous status and show an error message.
     - _Requirements: 11.2, 11.4, 11.5, 12.4, 12.5_
 
-  - [ ] 11.3 [P2] Add a verification checklist gate
+  - [x] 11.3 [P2] Add a verification checklist gate
     - In `client/src/pages/MyTasks.jsx`, add a checklist per task (for example "Backup verified", "Service tested", "Monitoring clear"), with a small component such as `client/src/components/VerificationChecklist.jsx`.
     - A task can be set to `done` only after every item is ticked. Until then the Done control stays disabled with a visible explanation.
     - Checklist state is kept in component state only and is not saved.
     - _Requirements: 11.4, 11.5, 12.4, 12.6_
 
-  - [ ] 11.4 [P2] Replace the status dropdown with Start, Done and Blocked buttons
+  - [x] 11.4 [P2] Replace the status dropdown with Start, Done and Blocked buttons
     - In `client/src/pages/MyTasks.jsx`, replace the status select with one-tap Start (`in_progress`), Done (`done`) and Blocked (`blocked`) buttons, each sending `PATCH /api/tasks/:id`.
     - Done respects the checklist gate from task 11.3. On failure, keep the previous status and show an error message.
     - _Requirements: 11.4, 11.5, 11.6, 12.4, 12.5, 12.6_
 
-  - [ ] 11.5 [P2] Load My Tasks and Recovery with Promise.allSettled
+  - [x] 11.5 [P2] Load My Tasks and Recovery with Promise.allSettled
     - In `client/src/pages/MyTasks.jsx` and `client/src/pages/Recovery.jsx`, load technicians, tasks and any other data with `Promise.allSettled`.
     - If the tasks request fails, still show the technician list (and the rest of the page) with an error message and retry control. A failed technicians request does not hide the tasks.
     - _Requirements: 11.1, 11.2, 11.3, 11.6_
