@@ -1,162 +1,23 @@
 {
   "pbtResults": {},
   "executionHistory": {
-    "4.1 [P2] Build the client shell": [
+    "2.11 [P4] Write property test for cycles": [
       {
-        "executionId": "ef85aa82-b10f-4b47-a148-cd6051773960",
-        "chatSessionId": "sess_ea518abe-44e9-4497-9a0f-bd6d95c4e7c8",
-        "timestamp": 1794711841609
+        "executionId": "1123585b-4cba-4f1d-a2cd-57a1e762f9db",
+        "chatSessionId": "sess_9dc97fb8-7fac-46fe-9961-5fbf4a5fad06",
+        "timestamp": 1794715268345
+      }
+    ],
+    "9.1 [P4] Write an API smoke test for the demo flow": [
+      {
+        "executionId": "21b660ef-e486-4b09-af37-e8a2360d290f",
+        "chatSessionId": "sess_01f40aed-33a9-4a73-8bb4-86653f9c4ee0",
+        "timestamp": 1794715299049
       },
       {
-        "executionId": "ef85aa82-b10f-4b47-a148-cd6051773960",
-        "chatSessionId": "sess_ea518abe-44e9-4497-9a0f-bd6d95c4e7c8",
-        "timestamp": 1794711899654
-      }
-    ],
-    "4.2 [P2] Build shared components": [
-      {
-        "executionId": "ef85aa82-b10f-4b47-a148-cd6051773960",
-        "chatSessionId": "sess_ea518abe-44e9-4497-9a0f-bd6d95c4e7c8",
-        "timestamp": 1794711900078
-      },
-      {
-        "executionId": "ef85aa82-b10f-4b47-a148-cd6051773960",
-        "chatSessionId": "sess_ea518abe-44e9-4497-9a0f-bd6d95c4e7c8",
-        "timestamp": 1794711942426
-      }
-    ],
-    "4.3 [P2] Build `Dashboard.jsx`": [
-      {
-        "executionId": "ef85aa82-b10f-4b47-a148-cd6051773960",
-        "chatSessionId": "sess_ea518abe-44e9-4497-9a0f-bd6d95c4e7c8",
-        "timestamp": 1794711942950
-      },
-      {
-        "executionId": "ef85aa82-b10f-4b47-a148-cd6051773960",
-        "chatSessionId": "sess_ea518abe-44e9-4497-9a0f-bd6d95c4e7c8",
-        "timestamp": 1794711993599
-      }
-    ],
-    "4. Client shell and Dashboard (P2; build order step 3)": [
-      {
-        "executionId": "ef85aa82-b10f-4b47-a148-cd6051773960",
-        "chatSessionId": "sess_ea518abe-44e9-4497-9a0f-bd6d95c4e7c8",
-        "timestamp": 1794711993900
-      }
-    ],
-    "5.2 [P2] Build `Recovery.jsx`": [
-      {
-        "executionId": "fd98ce5b-202d-413f-a70a-ef38cd2228a7",
-        "chatSessionId": "sess_40fa9907-9763-48a1-bcd4-311ce91d348e",
-        "timestamp": 1794712071644
-      },
-      {
-        "executionId": "fd98ce5b-202d-413f-a70a-ef38cd2228a7",
-        "chatSessionId": "sess_40fa9907-9763-48a1-bcd4-311ce91d348e",
-        "timestamp": 1794712143594
-      }
-    ],
-    "5.3 [P2] Build `MyTasks.jsx`": [
-      {
-        "executionId": "afe01d80-632f-4e78-b4e3-b8192e3ac4a1",
-        "chatSessionId": "sess_78338908-adb4-4371-afad-c7e1d04c3ad7",
-        "timestamp": 1794712207550
-      },
-      {
-        "executionId": "afe01d80-632f-4e78-b4e3-b8192e3ac4a1",
-        "chatSessionId": "sess_78338908-adb4-4371-afad-c7e1d04c3ad7",
-        "timestamp": 1794712245139
-      }
-    ],
-    "7.4 [P2] Build `Communication.jsx`": [
-      {
-        "executionId": "ba499af4-3596-49cd-873e-b16770130d2b",
-        "chatSessionId": "sess_b523763e-7ec6-4600-b5da-67800f01df8e",
-        "timestamp": 1794712353107
-      },
-      {
-        "executionId": "ba499af4-3596-49cd-873e-b16770130d2b",
-        "chatSessionId": "sess_b523763e-7ec6-4600-b5da-67800f01df8e",
-        "timestamp": 1794712416088
-      }
-    ],
-    "7.5 [P2] Build `CustomerStatus.jsx`": [
-      {
-        "executionId": "2bcd7f8f-5e14-4e26-9031-1a65e97d2fc8",
-        "chatSessionId": "sess_5dfe1ff8-891d-44c3-abea-74326cd689f5",
-        "timestamp": 1794712443385
-      },
-      {
-        "executionId": "2bcd7f8f-5e14-4e26-9031-1a65e97d2fc8",
-        "chatSessionId": "sess_5dfe1ff8-891d-44c3-abea-74326cd689f5",
-        "timestamp": 1794712481620
-      }
-    ],
-    "4.4 [P4] Verify the frontend builds and behaves per requirements": [
-      {
-        "executionId": "c2d6a9a5-0f8f-4404-92c1-c1bb2067f72f",
-        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
-        "timestamp": 1794713998603
-      },
-      {
-        "executionId": "c2d6a9a5-0f8f-4404-92c1-c1bb2067f72f",
-        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
-        "timestamp": 1794714067528
-      }
-    ],
-    "1.2 [P1] Write `supabase/schema.sql`": [
-      {
-        "executionId": "f3a4526a-df72-4476-9787-3e810d211b95",
-        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
-        "timestamp": 1794714615394
-      },
-      {
-        "executionId": "f3a4526a-df72-4476-9787-3e810d211b95",
-        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
-        "timestamp": 1794714671328
-      }
-    ],
-    "1.1 [P1] Create repo skeleton and shared config": [
-      {
-        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
-        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
-        "timestamp": 1794714787006
-      },
-      {
-        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
-        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
-        "timestamp": 1794714894090
-      }
-    ],
-    "1.4 [P1] Write the API contract section in `README.md`": [
-      {
-        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
-        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
-        "timestamp": 1794714915844
-      },
-      {
-        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
-        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
-        "timestamp": 1794715023030
-      }
-    ],
-    "1.3 [P1] Write `supabase/seed.sql`": [
-      {
-        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
-        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
-        "timestamp": 1794715056859
-      },
-      {
-        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
-        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
-        "timestamp": 1794715084980
-      }
-    ],
-    "1. Foundation and contracts (P1 leads, build order step 1)": [
-      {
-        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
-        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
-        "timestamp": 1794715085040
+        "executionId": "21b660ef-e486-4b09-af37-e8a2360d290f",
+        "chatSessionId": "sess_01f40aed-33a9-4a73-8bb4-86653f9c4ee0",
+        "timestamp": 1794715352101
       }
     ]
   }
