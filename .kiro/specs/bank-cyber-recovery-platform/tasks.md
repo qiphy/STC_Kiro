@@ -46,24 +46,24 @@ How the work runs in parallel:
     - _Requirements: 13.3, 16.10_
 
 - [ ] 2. Backend core and priority scoring (P3, with P4 tests; build order step 2)
-  - [ ] 2.1 [P3] Implement `api/lib/supabase.js` and `api/lib/validate.js`
+  - [x] 2.1 [P3] Implement `api/lib/supabase.js` and `api/lib/validate.js`
     - Supabase client from env using the service role key (server only).
     - `validateBody(schema, body)` and enum constants (`TASK_STATUSES`, `AUDIENCES`, advisory statuses). Checks required fields, enums, string length (max 1,000), notification message 1 to 500 after trim, task title 1 to 200. Returns the first invalid field name.
     - _Requirements: 8.2, 8.3, 10.2, 10.9, 13.1, 13.3, 13.5, 14.1_
 
-  - [ ] 2.2 [P3] Implement `api/lib/priority.js`
+  - [x] 2.2 [P3] Implement `api/lib/priority.js`
     - `scoreServices(services, dependencies)` returning `{ list, cycleDetected }` with the score formula, topological ordering that puts dependencies first, name tie-break by `<`, cycle fallback, one-line reason under 200 characters, and empty input handling. No I/O, no LLM.
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.7, 3.8, 3.9_
 
-  - [ ] 2.3 [P3] Implement `api/lib/status.js`
+  - [x] 2.3 [P3] Implement `api/lib/status.js`
     - `progressPercent`, `deriveServiceStatus`, `shouldResolveIncident`, `toPublicStatus` (published advisory with latest `created_at`, verified channels only, no private fields), and the constant `TIPS` array (phishing warning, never share OTP, official channels only).
     - _Requirements: 7.3, 9.1, 9.2, 9.4, 12.1, 12.2, 12.3, 12.4, 12.5, 12.6, 12.7_
 
-  - [ ] 2.4 [P3] Implement `services.js` and `technicians.js` routes
+  - [x] 2.4 [P3] Implement `services.js` and `technicians.js` routes
     - `GET /api/services` returns each service with `dependencies` as a list of names (empty list when none). `GET /api/technicians` returns id and name.
     - _Requirements: 1.3, 2.1, 10.6_
 
-  - [ ] 2.5 [P3] Implement `incidents.js` routes
+  - [x] 2.5 [P3] Implement `incidents.js` routes
     - `GET /api/incidents/active` returns incident, affected services and the ranked list from `scoreServices` over all dependency edges, or null and empty lists when none is active. Include `cycleDetected`.
     - `POST /api/incidents/simulate` calls the `simulate_attack` RPC and maps the active-incident error to 409. `POST /api/incidents/reset` calls `reset_demo` and succeeds when nothing is active. Failures return a generic 500.
     - _Requirements: 3.5, 3.8, 3.9, 4.2, 4.3, 4.4, 4.6, 4.8, 4.9_
@@ -122,7 +122,7 @@ How the work runs in parallel:
     - _Requirements: 1.2, 1.5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 9.8, 9.9, 18.5_
 
 - [ ] 5. Tasks, Recovery and My Tasks (P3 API, P2 UI; build order step 4)
-  - [ ] 5.1 [P3] Implement `tasks.js` routes
+  - [x] 5.1 [P3] Implement `tasks.js` routes
     - `GET /api/tasks` with service and technician info. `POST /api/tasks` validates title (1 to 200) and service id, optional technician, starts at `todo`, returns 400 for a missing reference. `PATCH /api/tasks/:id` updates only supplied fields, validates status, returns 404 for a missing task, and calls the `update_task_and_recompute` RPC so service and incident status stay in sync.
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.8, 10.9, 10.10, 10.11, 12.4, 12.5, 12.6, 12.7, 12.8_
 
