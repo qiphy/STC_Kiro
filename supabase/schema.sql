@@ -103,6 +103,13 @@ alter table alt_channels enable row level security;
 -- Functions. Each runs in a single transaction (rolls back on any error).
 -- ---------------------------------------------------------------------------
 
+-- Drop any earlier version first. `create or replace` cannot change a function's
+-- return type, so a leftover version (for example from supabase/rpc.sql) would
+-- make this script fail. Dropping functions does not touch table data.
+drop function if exists simulate_attack();
+drop function if exists reset_demo();
+drop function if exists update_task_and_recompute(bigint, jsonb);
+
 -- Raises SQLSTATE 'IA409' with message 'INCIDENT_ALREADY_ACTIVE' when an incident
 -- is already active. The API maps this to HTTP 409.
 create or replace function simulate_attack() returns json
@@ -116,22 +123,25 @@ begin
 
   insert into incidents (title) values ('Simulated cyber attack on core banking') returning * into v_incident;
 
-  -- Fixed preset: name, status, severity
-  create temporary table _preset (name text, status text, severity text) on commit drop;
-  insert into _preset values
+  -- Fixed preset: name, status, severity. Updates the services and links them to
+  -- the incident in one statement (no temporary table, which Supabase roles may
+  -- not be allowed to create).
+  with preset(name, status, severity) as (values
     ('Core Banking',   'down',     'critical'),
     ('Online Banking', 'down',     'high'),
     ('Mobile App',     'degraded', 'medium'),
     ('Fund Transfer',  'down',     'high'),
-    ('Card Payments',  'degraded', 'high');
-
-  update services s
-     set status = p.status, severity = p.severity, restored_by_tasks = false
-    from _preset p
-   where s.name = p.name;
-
+    ('Card Payments',  'degraded', 'high')
+  ),
+  updated as (
+    update services s
+       set status = p.status, severity = p.severity, restored_by_tasks = false
+      from preset p
+     where s.name = p.name
+    returning s.id
+  )
   insert into incident_services (incident_id, service_id)
-  select v_incident.id, s.id from services s join _preset p on p.name = s.name;
+  select v_incident.id, id from updated;
 
   -- Preset tasks: at least one per affected service
   insert into tasks (incident_id, service_id, title)
@@ -146,7 +156,6 @@ begin
     ) as t(service_name, title)
     join services s on s.name = t.service_name;
 
-  drop table _preset;
   return row_to_json(v_incident);
 end;
 $$;

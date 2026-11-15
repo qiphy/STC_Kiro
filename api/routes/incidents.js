@@ -58,7 +58,7 @@ router.post('/incidents/simulate', async (req, res, next) => {
   try {
     const { data, error } = await getSupabase().rpc('simulate_attack');
     if (error) {
-      if (error.code === 'P0409' || /active incident/i.test(error.message || '')) {
+      if (error.code === 'IA409' || error.code === 'P0409' || error.code === '23505' || /INCIDENT_ALREADY_ACTIVE|active incident/i.test(error.message || '')) {
         return res.status(409).json({ error: 'An incident is already active' });
       }
       throw error;
