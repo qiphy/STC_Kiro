@@ -1,8 +1,8 @@
 // Customer advisory generation: template draft, optional LLM draft, safety checks.
 
 const LLM_TIMEOUT_MS = 15000;
-const OPENAI_URL = 'https://api.openai.com/v1/chat/completions';
-const OPENAI_MODEL = 'gpt-4o-mini';
+const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
+const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
 
 const CREDENTIAL_WORDS = /\b(password|pin|otp)\b/i;
 const CREDENTIAL_VERBS = /\b(provide|send|enter|share|give|submit|tell|reply)\b/i;
@@ -75,7 +75,7 @@ export function findUnverifiedChannels(text, verifiedChannels) {
   return found;
 }
 
-export function createOpenAIClient(apiKey) {
+export function createGeminiClient(apiKey) {
   return async function generate({ affectedServices, verifiedChannels }) {
     const services = cleanList(affectedServices)
       .map((s) => `${s.name} (status: ${s.status}, severity: ${s.severity})`)
@@ -93,24 +93,27 @@ export function createOpenAIClient(apiKey) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), LLM_TIMEOUT_MS);
     try {
-      const res = await fetch(OPENAI_URL, {
+      const model = process.env.GEMINI_MODEL || DEFAULT_GEMINI_MODEL;
+      const res = await fetch(`${GEMINI_BASE}/${encodeURIComponent(model)}:generateContent`, {
         method: 'POST',
         signal: controller.signal,
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
+          'x-goog-api-key': apiKey,
         },
         body: JSON.stringify({
-          model: OPENAI_MODEL,
-          messages: [
-            { role: 'system', content: system },
-            { role: 'user', content: user },
-          ],
+          systemInstruction: { parts: [{ text: system }] },
+          contents: [{ role: 'user', parts: [{ text: user }] }],
+          generationConfig: {
+            maxOutputTokens: 1024,
+            thinkingConfig: { thinkingBudget: 0 },
+          },
         }),
       });
       if (!res.ok) throw new Error(`LLM request failed with status ${res.status}`);
       const data = await res.json();
-      return data?.choices?.[0]?.message?.content ?? '';
+      const parts = data?.candidates?.[0]?.content?.parts;
+      return Array.isArray(parts) ? parts.map((p) => p?.text ?? '').join('') : '';
     } finally {
       clearTimeout(timer);
     }
@@ -130,7 +133,7 @@ export async function generateAdvisory({ affectedServices, verifiedChannels, llm
   const template = buildTemplateDraft({ affectedServices, verifiedChannels });
   const templateResult = { ...template, source: 'template', fallback: false };
 
-  const client = llmClient || (llmKey ? createOpenAIClient(llmKey) : null);
+  const client = llmClient || (llmKey ? createGeminiClient(llmKey) : null);
   if (!llmKey && !llmClient) return templateResult;
   if (!client) return templateResult;
 
