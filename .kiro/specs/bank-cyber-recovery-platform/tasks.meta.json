@@ -91,6 +91,73 @@
         "chatSessionId": "sess_5dfe1ff8-891d-44c3-abea-74326cd689f5",
         "timestamp": 1794712481620
       }
+    ],
+    "4.4 [P4] Verify the frontend builds and behaves per requirements": [
+      {
+        "executionId": "c2d6a9a5-0f8f-4404-92c1-c1bb2067f72f",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794713998603
+      },
+      {
+        "executionId": "c2d6a9a5-0f8f-4404-92c1-c1bb2067f72f",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794714067528
+      }
+    ],
+    "1.2 [P1] Write `supabase/schema.sql`": [
+      {
+        "executionId": "f3a4526a-df72-4476-9787-3e810d211b95",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794714615394
+      },
+      {
+        "executionId": "f3a4526a-df72-4476-9787-3e810d211b95",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794714671328
+      }
+    ],
+    "1.1 [P1] Create repo skeleton and shared config": [
+      {
+        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794714787006
+      },
+      {
+        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794714894090
+      }
+    ],
+    "1.4 [P1] Write the API contract section in `README.md`": [
+      {
+        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794714915844
+      },
+      {
+        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794715023030
+      }
+    ],
+    "1.3 [P1] Write `supabase/seed.sql`": [
+      {
+        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794715056859
+      },
+      {
+        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794715084980
+      }
+    ],
+    "1. Foundation and contracts (P1 leads, build order step 1)": [
+      {
+        "executionId": "75e6fe5b-fed0-4ef3-ae49-a938799d0f99",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794715085040
+      }
     ]
   }
 }
