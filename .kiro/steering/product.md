@@ -1,4 +1,4 @@
-# Product: Bank Cyber Recovery Platform
+# Product: CyberRecover
 
 A web platform that helps a bank recover from a cyberattack faster. It shows which services are hit, tells the IT team what to restore first, tracks recovery work, and keeps customers informed.
 

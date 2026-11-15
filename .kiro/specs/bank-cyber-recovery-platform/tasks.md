@@ -1,4 +1,4 @@
-# Implementation Plan: Bank Cyber Recovery Platform
+# Implementation Plan: CyberRecover
 
 ## Overview
 

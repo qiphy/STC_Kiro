@@ -40,7 +40,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="topbar">
-        <h1>Bank Cyber Recovery Platform</h1>
+        <h1>CyberRecover</h1>
         <nav className="nav">
           {ROLE_PAGES[role].map((p) => (
             <NavLink key={p.path} to={p.path} className={({ isActive }) => (isActive ? 'active' : '')}>

@@ -2,7 +2,7 @@
   "name": "stc-kiro",
   "version": "1.0.0",
   "private": true,
-  "description": "Bank Cyber Recovery Platform: hackathon MVP for recovering a bank from a cyberattack",
+  "description": "CyberRecover: hackathon MVP for recovering a bank from a cyberattack",
   "type": "module",
   "main": "api/index.js",
   "engines": {

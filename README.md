@@ -1,4 +1,4 @@
-# Bank Cyber Recovery Platform
+# CyberRecover
 
 Hackathon MVP. A simulated cyber attack hits a fictional bank. The incident manager sees ranked recovery priorities, assigns tasks and sends simulated notices. Customers see a public status page while technicians complete tasks and services return to `operational`.
 

@@ -1,4 +1,4 @@
--- Bank Cyber Recovery Platform: schema (Supabase / Postgres)
+-- CyberRecover: schema (Supabase / Postgres)
 -- Run in the Supabase SQL editor. Safe to re-run: drops and recreates everything.
 
 drop table if exists notifications, advisories, tasks, incident_services, incidents,

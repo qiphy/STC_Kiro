@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Bank Cyber Recovery Platform is a hackathon MVP that runs one clean demo: a simulated attack hits a fictional bank, the incident manager sees ranked recovery priorities, assigns tasks, sends simulated notices, and customers see a public status page while technicians complete tasks and services return to `operational`.
+CyberRecover is a hackathon MVP that runs one clean demo: a simulated attack hits a fictional bank, the incident manager sees ranked recovery priorities, assigns tasks, sends simulated notices, and customers see a public status page while technicians complete tasks and services return to `operational`.
 
 Design goals, in order:
 

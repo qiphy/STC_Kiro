@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The Bank Cyber Recovery Platform is a web application that helps a fictional bank recover from a cyberattack. It shows which banking services are affected, ranks them for restoration, tracks recovery tasks, and keeps customers informed through simulated notifications and a public status page. The scope is a 4-hour hackathon MVP that runs a clean demo on seeded, fictional data. Anything external (email, SMS, monitoring) is simulated.
+CyberRecover is a web application that helps a fictional bank recover from a cyberattack. It shows which banking services are affected, ranks them for restoration, tracks recovery tasks, and keeps customers informed through simulated notifications and a public status page. The scope is a 4-hour hackathon MVP that runs a clean demo on seeded, fictional data. Anything external (email, SMS, monitoring) is simulated.
 
 ## Glossary
 
