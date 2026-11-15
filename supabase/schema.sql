@@ -116,6 +116,7 @@ create or replace function simulate_attack() returns json
 language plpgsql as $$
 declare
   v_incident incidents;
+  v_count int;
 begin
   if exists (select 1 from incidents where status = 'active') then
     raise exception 'INCIDENT_ALREADY_ACTIVE' using errcode = 'IA409';
@@ -142,6 +143,13 @@ begin
   )
   insert into incident_services (incident_id, service_id)
   select v_incident.id, id from updated;
+
+  -- The preset services come from seed.sql. Without them there is nothing to
+  -- simulate, so roll the whole call back (the incident insert included).
+  get diagnostics v_count = row_count;
+  if v_count = 0 then
+    raise exception 'DEMO_SERVICES_MISSING: run supabase/seed.sql first';
+  end if;
 
   -- Preset tasks: at least one per affected service
   insert into tasks (incident_id, service_id, title)
@@ -222,3 +230,15 @@ begin
   return row_to_json(v_task);
 end;
 $$;
+
+-- Only the backend (service role) may call these functions. The anon and
+-- authenticated roles used by browsers cannot.
+revoke all on function simulate_attack() from public, anon, authenticated;
+revoke all on function reset_demo() from public, anon, authenticated;
+revoke all on function update_task_and_recompute(bigint, jsonb) from public, anon, authenticated;
+grant execute on function simulate_attack() to service_role;
+grant execute on function reset_demo() to service_role;
+grant execute on function update_task_and_recompute(bigint, jsonb) to service_role;
+
+-- Ask the Supabase API to reload its schema cache so the functions are found.
+notify pgrst, 'reload schema';
