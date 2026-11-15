@@ -198,16 +198,16 @@ How the work runs in parallel:
 - [ ] 8. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Integration, deploy and demo (build order step 6)
+- [x] 9. Integration, deploy and demo (build order step 6)
   - [x] 9.1 [P4] Write an API smoke test for the demo flow
     - `api/smoke.test.js` runs against a local API URL from an env variable and is skipped when it is unset. Steps follow the demo script: services all operational, simulate (second call returns 409), priority list present, create and assign a task, save a draft advisory (hidden from public status), publish, send a notification, mark tasks `done` and check progress and service status, reset twice, unknown `/api/*` path returns JSON 404.
     - _Requirements: 4.2, 4.4, 4.8, 9.2, 12.4, 16.1, 16.2, 16.3, 16.4, 16.5, 16.6, 16.7, 16.8, 17.5_
 
-  - [ ] 9.2 [P1] Finalize deploy configuration and secret checks
+  - [x] 9.2 [P1] Finalize deploy configuration and secret checks
     - Confirm `vercel.json` routes and `package.json` build settings work for one Vercel project. Add an npm script that fails if the built client bundle contains `SERVICE_ROLE` or `LLM_API_KEY`. Confirm `.env.example` matches the variables actually read.
     - _Requirements: 14.1, 14.4, 14.5, 17.3, 17.4_
 
-  - [ ] 9.3 [P1] Finish `README.md`
+  - [x] 9.3 [P1] Finish `README.md`
     - Setup steps, deploy steps, the demo script covering all nine demo steps in order (the manual run-through for P4 to follow), the statement that the role switcher is not authentication and does not restrict API data, and known limitations (RPC rollback, polling only on the status page, simulated notifications).
     - _Requirements: 5.10, 16.10_
 
