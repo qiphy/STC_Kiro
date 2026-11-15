@@ -5,6 +5,9 @@ import servicesRouter from './routes/services.js';
 import techniciansRouter from './routes/technicians.js';
 import incidentsRouter from './routes/incidents.js';
 import tasksRouter from './routes/tasks.js';
+import advisoriesRouter from './routes/advisories.js';
+import notificationsRouter from './routes/notifications.js';
+import publicRouter from './routes/public.js';
 
 const app = express();
 
@@ -21,6 +24,9 @@ app.use('/api', servicesRouter);
 app.use('/api', techniciansRouter);
 app.use('/api', incidentsRouter);
 app.use('/api', tasksRouter);
+app.use('/api', advisoriesRouter);
+app.use('/api', notificationsRouter);
+app.use('/api', publicRouter);
 
 app.use('/api', (req, res) => {
   res.status(404).json({ error: 'Not found' });

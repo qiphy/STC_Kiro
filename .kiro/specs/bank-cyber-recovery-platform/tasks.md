@@ -151,16 +151,16 @@ How the work runs in parallel:
 - [ ] 6. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 7. Advisory, notifications and public status (P3 API, P2 UI; build order step 5)
-  - [ ] 7.1 [P3] Implement `api/lib/advisory.js`
+- [x] 7. Advisory, notifications and public status (P3 API, P2 UI; build order step 5)
+  - [x] 7.1 [P1] Implement `api/lib/advisory.js`
     - `buildTemplateDraft`, `containsCredentialRequest`, `findUnverifiedChannels`, `generateAdvisory` with injected LLM client, 15 s timeout, template fallback with `fallback: true` when the call fails, is empty, times out or fails a safety check. Template needs no `LLM_API_KEY`.
     - _Requirements: 6.2, 6.3, 6.4, 6.9, 7.1, 7.2, 7.6, 7.7_
 
-  - [ ] 7.2 [P3] Implement `advisories.js` and `notifications.js` routes
+  - [x] 7.2 [P1] Implement `advisories.js` and `notifications.js` routes
     - `POST /api/advisories/generate` (never writes). `POST /api/advisories` validates status and text, rejects credential requests and unverified channels with 400 and the specified messages, stores nothing on rejection. `GET` and `POST /api/notifications` with validation, newest first, no real delivery.
     - _Requirements: 6.1, 6.5, 6.6, 6.7, 6.8, 7.4, 7.5, 8.1, 8.2, 8.3, 8.4, 8.5_
 
-  - [ ] 7.3 [P3] Implement `public.js` route
+  - [x] 7.3 [P1] Implement `public.js` route
     - `GET /api/public/status` without auth, using `toPublicStatus` with services, the latest published advisory, verified channels and tips.
     - _Requirements: 7.3, 9.1, 9.2, 9.7_
 
