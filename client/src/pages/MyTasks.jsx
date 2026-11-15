@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { request } from '../api.js';
 import StatusBadge from '../components/StatusBadge.jsx';
-
-const TASK_STATUSES = ['todo', 'in_progress', 'done', 'blocked'];
+import TaskActions from '../components/TaskActions.jsx';
+import Runbook from '../components/Runbook.jsx';
+import TaskStatusButtons from '../components/TaskStatusButtons.jsx';
+import TaskChecklist, { isChecklistComplete } from '../components/TaskChecklist.jsx';
 
 const asList = (data, key) => (Array.isArray(data) ? data : data?.[key] || []);
 const taskTechId = (t) => t.technician_id ?? t.technician?.id ?? null;
@@ -15,22 +17,30 @@ export default function MyTasks() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [busyId, setBusyId] = useState(null);
+  const [checklists, setChecklists] = useState({});
+
+  const canMarkDone = (taskId) => isChecklistComplete(checklists[taskId]);
+  const setChecked = (taskId, item, value) =>
+    setChecklists((prev) => ({ ...prev, [taskId]: { ...prev[taskId], [item]: value } }));
 
   useEffect(() => {
     let cancelled = false;
     async function load() {
       try {
-        const [tech, t, s] = await Promise.all([
+        const [tech, t, s] = await Promise.allSettled([
           request('/technicians'),
           request('/tasks'),
           request('/services'),
         ]);
         if (cancelled) return;
-        setTechnicians(asList(tech, 'technicians'));
-        setTasks(asList(t, 'tasks'));
-        setServices(asList(s, 'services'));
-      } catch (err) {
-        if (!cancelled) setError(err.message || 'Could not load tasks');
+        const failed = [];
+        if (tech.status === 'fulfilled') setTechnicians(asList(tech.value, 'technicians'));
+        else failed.push('technicians');
+        if (t.status === 'fulfilled') setTasks(asList(t.value, 'tasks'));
+        else failed.push('tasks');
+        if (s.status === 'fulfilled') setServices(asList(s.value, 'services'));
+        else failed.push('services');
+        setError(failed.map((name) => `Could not load ${name}`).join('. '));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -51,6 +61,10 @@ export default function MyTasks() {
 
   async function changeStatus(task, status) {
     if (status === task.status) return;
+    if (status === 'done' && !canMarkDone(task.id)) {
+      setError(`Tick all checklist items to mark "${task.title}" done`);
+      return;
+    }
     setBusyId(task.id);
     setError('');
     try {
@@ -91,16 +105,16 @@ export default function MyTasks() {
             <span className="task-service">{serviceName(t)}</span>
             <StatusBadge status={t.status} />
           </div>
-          <select
-            value={t.status}
-            disabled={busyId === t.id}
-            onChange={(e) => changeStatus(t, e.target.value)}
-            aria-label={`Status for ${t.title}`}
-          >
-            {TASK_STATUSES.map((s) => (
-              <option key={s} value={s}>{s}</option>
-            ))}
-          </select>
+          <TaskStatusButtons
+            title={t.title}
+            status={t.status}
+            busy={busyId === t.id}
+            canMarkDone={canMarkDone(t.id)}
+            onChange={(status) => changeStatus(t, status)}
+          />
+          <TaskChecklist taskId={t.id} checked={checklists[t.id]} onChange={setChecked} />
+          <TaskActions status={t.status} onStart={() => changeStatus(t, 'in_progress')} />
+          <Runbook service={serviceName(t)} />
         </div>
       ))}
     </div>

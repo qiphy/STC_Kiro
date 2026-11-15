@@ -109,6 +109,66 @@
         "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
         "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
         "timestamp": 1794722979563
+      },
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723019920
+      }
+    ],
+    "11.2 [P2] Add simulated action buttons per task": [
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723040677
+      },
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723077271
+      }
+    ],
+    "11.3 [P2] Add a verification checklist gate": [
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723090520
+      },
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723128495
+      }
+    ],
+    "11.4 [P2] Replace the status dropdown with Start, Done and Blocked buttons": [
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723244073
+      },
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723309543
+      }
+    ],
+    "11.5 [P2] Load My Tasks and Recovery with Promise.allSettled": [
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723333667
+      },
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723373307
+      }
+    ],
+    "11. Technician recovery actions (P2, simulated; added after MVP)": [
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723373356
       }
     ]
   }
