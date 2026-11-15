@@ -4,19 +4,28 @@ Hackathon MVP. A simulated cyber attack hits a fictional bank. The incident mana
 
 Stack: React (Vite, JavaScript) client, Express API (Vercel serverless under `/api`), Supabase Postgres. Role switching in the UI is local React state for demo purposes. It is not security.
 
-## Run locally (first draft)
+## Setup
 
-1. Create a Supabase project.
-2. In the Supabase SQL editor, run `supabase/schema.sql`, then `supabase/seed.sql`. Both can be re-run: `schema.sql` drops and recreates everything.
+1. Create a Supabase project (free tier is enough).
+2. In the Supabase SQL editor, run these files in this order:
+   1. `supabase/schema.sql`. Drops and recreates every table and the three functions (`simulate_attack`, `reset_demo`, `update_task_and_recompute`). Use this on a fresh project.
+   2. `supabase/seed.sql`. Loads the fictional demo data. It starts with `truncate ... restart identity cascade`, so it wipes all existing rows in the demo tables, then inserts in one transaction (a failure leaves no partial rows).
+   3. `supabase/rpc.sql` only if the database already existed and you did not re-run `schema.sql`. It installs the same three functions without dropping tables or deleting rows. After a fresh `schema.sql` it is not needed, but running it again is harmless.
 3. Copy `.env.example` to `.env` and fill in:
-   - `SUPABASE_URL`
-   - `SUPABASE_SERVICE_ROLE_KEY` (server only, never exposed to the client)
-   - `VITE_API_BASE_URL=/api` (default)
-   - `LLM_API_KEY` (optional; empty means template advisories)
-4. `npm install`
-5. `npm run dev` starts the API on `http://localhost:3001` and Vite on its default port. Vite proxies `/api` to the API.
 
-Tests: `npm test`.
+| Variable | Required | Purpose |
+|---|---|---|
+| `SUPABASE_URL` | yes | Supabase project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | yes | Server only. Never expose to the client. |
+| `VITE_API_BASE_URL` | no | Defaults to `/api` |
+| `LLM_API_KEY` | no | Google Gemini API key. Empty means template advisories. |
+| `GEMINI_MODEL` | no | Gemini model name. Defaults to `gemini-2.5-flash`. |
+| `CLIENT_ORIGIN` | no | Allowed CORS origin if the client is served elsewhere. Defaults to `http://localhost:5173`. |
+| `PORT` | no | Local API port. Defaults to 3001. Ignored on Vercel. |
+
+4. `npm install` (Node 20.19 or newer).
+5. `npm run dev` starts the API on `http://localhost:3001` and Vite on `http://localhost:5173`. Vite proxies `/api` to the API.
+6. `npm test` runs the API tests.
 
 ## API contract
 
@@ -252,12 +261,48 @@ Status codes: 200, 500.
 
 ## Deploy
 
-To be completed (task 9.3).
+Deploy as one Vercel project. `vercel.json` sends `/api/*` to `api/index.js` and serves the client build for every other path.
+
+1. Push the repository to GitHub.
+2. In Vercel, import the repository.
+3. Under Settings, Environment Variables, set `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and optionally `LLM_API_KEY`. Never give a secret a `VITE_` prefix, because Vite embeds those in the browser bundle.
+4. Deploy. Vercel environment variable changes only apply to new deployments, so redeploy after changing any variable.
+5. Before sharing the URL, run `npm run build && npm run check:secrets` locally. The check fails if the built client bundle contains a server secret name or value.
+6. Post-deploy checks (replace `<url>` with the deployment URL):
+   - `<url>/api/services` returns a JSON array of services.
+   - `<url>/api/health` returns `{"ok":true}`.
+   - An unknown path such as `<url>/api/nope` returns JSON `{"error":"Not found"}` with status 404, not HTML.
+   - `<url>/status` loads the customer status page.
+   - Refreshing the browser on `<url>/recovery` still loads the app (no 404).
+
+Troubleshooting: if the Vercel build treats the `api/**/*.test.js` files as serverless functions and fails, add a `.vercelignore` file at the repository root that lists those test files (for example `api/**/*.test.js`) and redeploy. Add it only if you hit this problem.
 
 ## Demo script
 
-To be completed (task 9.3).
+Run this once by hand before presenting. Start from a freshly seeded database (`seed.sql`) or click **Reset** on the Dashboard. Use the **Role** dropdown in the page header to switch between `manager`, `technician` and `customer`. Open the status page in a second tab, since `/status` is reachable in every role.
+
+1. **Healthy dashboard** (role `manager`, Dashboard). Every service shows `operational` and there is no active incident. Click **Simulate attack**.
+2. **Affected services and priority list** (Dashboard). Each affected service appears with its severity, and the recovery priority list shows ranks with a one-line reason each. Click **Refresh** if the view looks stale.
+3. **Assign tasks** (Recovery). In the add-task form pick a service and a technician, then click **Add task**. For existing tasks, change the assignee in the assignee dropdown on the task row. The task shows its technician.
+4. **Advisory and notices** (Communication). Click **Generate draft**, review and edit the text, then click **Save as draft**. A draft is not visible on the status page. Click **Publish** when ready. In the notification form choose the audience (`customers`, then `technicians`), type a message, click **Send notification**, then **Confirm**. Each send adds one entry to the notification log.
+5. **Customer view** (role `customer`, Status page). The page shows the affected services, the published advisory, the verified alternative channels and the security tips. It refreshes every 30 seconds.
+6. **Technician work** (role `technician`, My Tasks). Select a technician in **Acting technician**, then change each task's status dropdown to `in_progress` and then `done`. As tasks finish, switch to `manager` and open Recovery to watch the progress percentages rise. When every task of a service is `done`, that service returns to `operational` on the Dashboard.
+7. **Restored update** (role `manager`). When every affected service is `operational`, Recovery shows "All services are restored." Click **Post restored advisory and notification**, or write one on Communication via **Prepare restored advisory** and **Publish**. The status page shows it as the latest advisory after its next refresh.
+8. **Reset** (Dashboard). Click **Reset** to remove the incident, tasks, advisories and notifications and return to the healthy start state. Click **Simulate attack** again to replay.
+
+The numbered steps map to Requirement 16 criteria 1 to 9: criteria 1 and 2 are steps 1 and 2, 3 is step 3, 4 and 5 are step 4, 6 is step 5, 7 and 8 are step 6, 9 is step 7.
+
+## Role switcher is not authentication
+
+The Role dropdown is local React state that only changes which pages the navigation shows. The Platform has no login, no sessions and no user accounts. Choosing a role does not restrict access to API data: anyone who can reach the site can call every `/api` endpoint, including simulate, reset and notifications. Do not use this platform with real data.
 
 ## Known limitations
 
-To be completed (task 9.3).
+- Atomic updates rely on the three Postgres functions (`simulate_attack`, `reset_demo`, `update_task_and_recompute`). They give all-or-nothing rollback. If they are not installed, simulate, reset and task updates fail with a 500 `Operation failed` error. Run `schema.sql` or `rpc.sql` to install them.
+- Only the customer status page polls (every 30 seconds). All other pages update on their own actions or when you click **Refresh**. There are no websockets.
+- Notifications are simulated. Sending writes a row to the `notifications` table and shows it in the log. No real email or SMS is sent.
+- All data is fictional. Do not enter real customer data, bank names or credentials.
+- The LLM is optional. Without `LLM_API_KEY`, or when the LLM draft fails safety checks, advisories use the built-in template (the client shows a notice when it falls back).
+- Moving a task out of `done` after the incident was resolved does not reopen the incident.
+- Reset and `seed.sql` delete data. Reset removes incidents, tasks, advisories and notifications. `seed.sql` truncates all demo tables. `schema.sql` drops them.
+- No authentication, role-based access control or audit trail (see above).

@@ -19,6 +19,157 @@
         "chatSessionId": "sess_01f40aed-33a9-4a73-8bb4-86653f9c4ee0",
         "timestamp": 1794715352101
       }
+    ],
+    "7.1 [P1] Implement `api/lib/advisory.js`": [
+      {
+        "executionId": "7ec977fa-6980-4031-93aa-2e9aa0a1ec37",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794720946590
+      },
+      {
+        "executionId": "7ec977fa-6980-4031-93aa-2e9aa0a1ec37",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721002816
+      },
+      {
+        "executionId": "ed7e356c-f345-4add-9eaf-fe910a3fcf81",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721372585
+      },
+      {
+        "executionId": "ed7e356c-f345-4add-9eaf-fe910a3fcf81",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721412495
+      }
+    ],
+    "7.2 [P1] Implement `advisories.js` and `notifications.js` routes": [
+      {
+        "executionId": "7ec977fa-6980-4031-93aa-2e9aa0a1ec37",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721018045
+      },
+      {
+        "executionId": "7ec977fa-6980-4031-93aa-2e9aa0a1ec37",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721130688
+      }
+    ],
+    "7.3 [P1] Implement `public.js` route": [
+      {
+        "executionId": "7ec977fa-6980-4031-93aa-2e9aa0a1ec37",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721148289
+      },
+      {
+        "executionId": "7ec977fa-6980-4031-93aa-2e9aa0a1ec37",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721289521
+      }
+    ],
+    "7. Advisory, notifications and public status (P3 API, P2 UI; build order step 5)": [
+      {
+        "executionId": "7ec977fa-6980-4031-93aa-2e9aa0a1ec37",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721289574
+      }
+    ],
+    "9.2 [P1] Finalize deploy configuration and secret checks": [
+      {
+        "executionId": "dccb8c28-e5a2-45b7-b382-6452cf34bbd4",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721513534
+      },
+      {
+        "executionId": "dccb8c28-e5a2-45b7-b382-6452cf34bbd4",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721560405
+      }
+    ],
+    "9.3 [P1] Finish `README.md`": [
+      {
+        "executionId": "dccb8c28-e5a2-45b7-b382-6452cf34bbd4",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721561649
+      },
+      {
+        "executionId": "dccb8c28-e5a2-45b7-b382-6452cf34bbd4",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721674515
+      }
+    ],
+    "9. Integration, deploy and demo (build order step 6)": [
+      {
+        "executionId": "dccb8c28-e5a2-45b7-b382-6452cf34bbd4",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794721674556
+      }
+    ],
+    "11.1 [P2] Add a per-service runbook panel to My Tasks": [
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794722979563
+      },
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723019920
+      }
+    ],
+    "11.2 [P2] Add simulated action buttons per task": [
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723040677
+      },
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723077271
+      }
+    ],
+    "11.3 [P2] Add a verification checklist gate": [
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723090520
+      },
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723128495
+      }
+    ],
+    "11.4 [P2] Replace the status dropdown with Start, Done and Blocked buttons": [
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723244073
+      },
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723309543
+      }
+    ],
+    "11.5 [P2] Load My Tasks and Recovery with Promise.allSettled": [
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723333667
+      },
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723373307
+      }
+    ],
+    "11. Technician recovery actions (P2, simulated; added after MVP)": [
+      {
+        "executionId": "694535cd-3d0f-4e75-8d15-ca6232599916",
+        "chatSessionId": "sess_11b3c99f-be7d-4992-8bf5-18741348031f",
+        "timestamp": 1794723373356
+      }
     ]
   }
 }

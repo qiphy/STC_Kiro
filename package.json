@@ -13,6 +13,7 @@
     "dev:api": "node --watch api/index.js",
     "dev:client": "vite client",
     "build": "vite build client",
+    "check:secrets": "node scripts/checkSecrets.js",
     "preview": "vite preview client",
     "test": "node --test \"api/**/*.test.js\"",
     "check:db": "node scripts/check-db.js"

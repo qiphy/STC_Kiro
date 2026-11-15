@@ -46,24 +46,24 @@ How the work runs in parallel:
     - _Requirements: 13.3, 16.10_
 
 - [ ] 2. Backend core and priority scoring (P3, with P4 tests; build order step 2)
-  - [ ] 2.1 [P3] Implement `api/lib/supabase.js` and `api/lib/validate.js`
+  - [x] 2.1 [P3] Implement `api/lib/supabase.js` and `api/lib/validate.js`
     - Supabase client from env using the service role key (server only).
     - `validateBody(schema, body)` and enum constants (`TASK_STATUSES`, `AUDIENCES`, advisory statuses). Checks required fields, enums, string length (max 1,000), notification message 1 to 500 after trim, task title 1 to 200. Returns the first invalid field name.
     - _Requirements: 8.2, 8.3, 10.2, 10.9, 13.1, 13.3, 13.5, 14.1_
 
-  - [ ] 2.2 [P3] Implement `api/lib/priority.js`
+  - [x] 2.2 [P3] Implement `api/lib/priority.js`
     - `scoreServices(services, dependencies)` returning `{ list, cycleDetected }` with the score formula, topological ordering that puts dependencies first, name tie-break by `<`, cycle fallback, one-line reason under 200 characters, and empty input handling. No I/O, no LLM.
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.7, 3.8, 3.9_
 
-  - [ ] 2.3 [P3] Implement `api/lib/status.js`
+  - [x] 2.3 [P3] Implement `api/lib/status.js`
     - `progressPercent`, `deriveServiceStatus`, `shouldResolveIncident`, `toPublicStatus` (published advisory with latest `created_at`, verified channels only, no private fields), and the constant `TIPS` array (phishing warning, never share OTP, official channels only).
     - _Requirements: 7.3, 9.1, 9.2, 9.4, 12.1, 12.2, 12.3, 12.4, 12.5, 12.6, 12.7_
 
-  - [ ] 2.4 [P3] Implement `services.js` and `technicians.js` routes
+  - [x] 2.4 [P3] Implement `services.js` and `technicians.js` routes
     - `GET /api/services` returns each service with `dependencies` as a list of names (empty list when none). `GET /api/technicians` returns id and name.
     - _Requirements: 1.3, 2.1, 10.6_
 
-  - [ ] 2.5 [P3] Implement `incidents.js` routes
+  - [x] 2.5 [P3] Implement `incidents.js` routes
     - `GET /api/incidents/active` returns incident, affected services and the ranked list from `scoreServices` over all dependency edges, or null and empty lists when none is active. Include `cycleDetected`.
     - `POST /api/incidents/simulate` calls the `simulate_attack` RPC and maps the active-incident error to 409. `POST /api/incidents/reset` calls `reset_demo` and succeeds when nothing is active. Failures return a generic 500.
     - _Requirements: 3.5, 3.8, 3.9, 4.2, 4.3, 4.4, 4.6, 4.8, 4.9_
@@ -122,7 +122,7 @@ How the work runs in parallel:
     - _Requirements: 1.2, 1.5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 9.8, 9.9, 18.5_
 
 - [ ] 5. Tasks, Recovery and My Tasks (P3 API, P2 UI; build order step 4)
-  - [ ] 5.1 [P3] Implement `tasks.js` routes
+  - [x] 5.1 [P3] Implement `tasks.js` routes
     - `GET /api/tasks` with service and technician info. `POST /api/tasks` validates title (1 to 200) and service id, optional technician, starts at `todo`, returns 400 for a missing reference. `PATCH /api/tasks/:id` updates only supplied fields, validates status, returns 404 for a missing task, and calls the `update_task_and_recompute` RPC so service and incident status stay in sync.
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.8, 10.9, 10.10, 10.11, 12.4, 12.5, 12.6, 12.7, 12.8_
 
@@ -151,16 +151,16 @@ How the work runs in parallel:
 - [ ] 6. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 7. Advisory, notifications and public status (P3 API, P2 UI; build order step 5)
-  - [ ] 7.1 [P3] Implement `api/lib/advisory.js`
+- [x] 7. Advisory, notifications and public status (P3 API, P2 UI; build order step 5)
+  - [x] 7.1 [P1] Implement `api/lib/advisory.js`
     - `buildTemplateDraft`, `containsCredentialRequest`, `findUnverifiedChannels`, `generateAdvisory` with injected LLM client, 15 s timeout, template fallback with `fallback: true` when the call fails, is empty, times out or fails a safety check. Template needs no `LLM_API_KEY`.
     - _Requirements: 6.2, 6.3, 6.4, 6.9, 7.1, 7.2, 7.6, 7.7_
 
-  - [ ] 7.2 [P3] Implement `advisories.js` and `notifications.js` routes
+  - [x] 7.2 [P1] Implement `advisories.js` and `notifications.js` routes
     - `POST /api/advisories/generate` (never writes). `POST /api/advisories` validates status and text, rejects credential requests and unverified channels with 400 and the specified messages, stores nothing on rejection. `GET` and `POST /api/notifications` with validation, newest first, no real delivery.
     - _Requirements: 6.1, 6.5, 6.6, 6.7, 6.8, 7.4, 7.5, 8.1, 8.2, 8.3, 8.4, 8.5_
 
-  - [ ] 7.3 [P3] Implement `public.js` route
+  - [x] 7.3 [P1] Implement `public.js` route
     - `GET /api/public/status` without auth, using `toPublicStatus` with services, the latest published advisory, verified channels and tips.
     - _Requirements: 7.3, 9.1, 9.2, 9.7_
 
@@ -198,21 +198,50 @@ How the work runs in parallel:
 - [ ] 8. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Integration, deploy and demo (build order step 6)
+- [x] 9. Integration, deploy and demo (build order step 6)
   - [x] 9.1 [P4] Write an API smoke test for the demo flow
     - `api/smoke.test.js` runs against a local API URL from an env variable and is skipped when it is unset. Steps follow the demo script: services all operational, simulate (second call returns 409), priority list present, create and assign a task, save a draft advisory (hidden from public status), publish, send a notification, mark tasks `done` and check progress and service status, reset twice, unknown `/api/*` path returns JSON 404.
     - _Requirements: 4.2, 4.4, 4.8, 9.2, 12.4, 16.1, 16.2, 16.3, 16.4, 16.5, 16.6, 16.7, 16.8, 17.5_
 
-  - [ ] 9.2 [P1] Finalize deploy configuration and secret checks
+  - [x] 9.2 [P1] Finalize deploy configuration and secret checks
     - Confirm `vercel.json` routes and `package.json` build settings work for one Vercel project. Add an npm script that fails if the built client bundle contains `SERVICE_ROLE` or `LLM_API_KEY`. Confirm `.env.example` matches the variables actually read.
     - _Requirements: 14.1, 14.4, 14.5, 17.3, 17.4_
 
-  - [ ] 9.3 [P1] Finish `README.md`
+  - [x] 9.3 [P1] Finish `README.md`
     - Setup steps, deploy steps, the demo script covering all nine demo steps in order (the manual run-through for P4 to follow), the statement that the role switcher is not authentication and does not restrict API data, and known limitations (RPC rollback, polling only on the status page, simulated notifications).
     - _Requirements: 5.10, 16.10_
 
 - [ ] 10. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 11. Technician recovery actions (P2, simulated; added after MVP)
+  - [x] 11.1 [P2] Add a per-service runbook panel to My Tasks
+    - In `client/src/pages/MyTasks.jsx`, plus a small component such as `client/src/components/Runbook.jsx`, show a collapsible runbook under each task.
+    - Use a fixed static list of recovery steps per service: Core Database, Core Banking, Online Banking, Mobile App, ATM Network, Card Payments, Fund Transfer, Customer Support Line, with a generic fallback for any other service name.
+    - No new libraries, no schema changes, no API changes.
+    - _Requirements: 11.2, 11.3_
+
+  - [x] 11.2 [P2] Add simulated action buttons per task
+    - In `client/src/pages/MyTasks.jsx`, add "Run restore", "Verify" and "Re-enable" buttons per task (small component under `client/src/components/`, for example `SimulatedActions.jsx`).
+    - Each button runs a client-side timed progress step of about 2 seconds, disabled while running, and labelled "Simulated, no real system is touched".
+    - The first action on a task moves it to `in_progress` through the existing `PATCH /api/tasks/:id`. Later actions do not send another request. On failure, keep the previous status and show an error message.
+    - _Requirements: 11.2, 11.4, 11.5, 12.4, 12.5_
+
+  - [x] 11.3 [P2] Add a verification checklist gate
+    - In `client/src/pages/MyTasks.jsx`, add a checklist per task (for example "Backup verified", "Service tested", "Monitoring clear"), with a small component such as `client/src/components/VerificationChecklist.jsx`.
+    - A task can be set to `done` only after every item is ticked. Until then the Done control stays disabled with a visible explanation.
+    - Checklist state is kept in component state only and is not saved.
+    - _Requirements: 11.4, 11.5, 12.4, 12.6_
+
+  - [x] 11.4 [P2] Replace the status dropdown with Start, Done and Blocked buttons
+    - In `client/src/pages/MyTasks.jsx`, replace the status select with one-tap Start (`in_progress`), Done (`done`) and Blocked (`blocked`) buttons, each sending `PATCH /api/tasks/:id`.
+    - Done respects the checklist gate from task 11.3. On failure, keep the previous status and show an error message.
+    - _Requirements: 11.4, 11.5, 11.6, 12.4, 12.5, 12.6_
+
+  - [x] 11.5 [P2] Load My Tasks and Recovery with Promise.allSettled
+    - In `client/src/pages/MyTasks.jsx` and `client/src/pages/Recovery.jsx`, load technicians, tasks and any other data with `Promise.allSettled`.
+    - If the tasks request fails, still show the technician list (and the rest of the page) with an error message and retry control. A failed technicians request does not hide the tasks.
+    - _Requirements: 11.1, 11.2, 11.3, 11.6_
 
 ## Notes
 
@@ -234,7 +263,12 @@ How the work runs in parallel:
     { "id": 4, "tasks": ["2.9", "5.6", "7.4", "7.5", "7.7", "7.10"] },
     { "id": 5, "tasks": ["2.10", "4.4", "7.8"] },
     { "id": 6, "tasks": ["2.11", "7.9"] },
-    { "id": 7, "tasks": ["9.1", "9.2", "9.3"] }
+    { "id": 7, "tasks": ["9.1", "9.2", "9.3"] },
+    { "id": 8, "tasks": ["11.1"] },
+    { "id": 9, "tasks": ["11.2"] },
+    { "id": 10, "tasks": ["11.3"] },
+    { "id": 11, "tasks": ["11.4"] },
+    { "id": 12, "tasks": ["11.5"] }
   ]
 }
 ```

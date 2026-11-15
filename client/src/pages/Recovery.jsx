@@ -38,31 +38,37 @@ export default function Recovery() {
   async function load() {
     setLoading(true);
     try {
-      const [t, s, tech, active] = await Promise.all([
+      const [t, s, tech, act] = await Promise.allSettled([
         request('/tasks'),
         request('/services'),
         request('/technicians'),
         request('/incidents/active'),
       ]);
-      setTasks(Array.isArray(t) ? t : t?.tasks || []);
-      setServices(Array.isArray(s) ? s : s?.services || []);
-      setTechnicians(Array.isArray(tech) ? tech : tech?.technicians || []);
-      const inc = active?.incident || null;
-      setIncident(inc);
-      setAffected(Array.isArray(active?.services) ? active.services : []);
-      if (inc && inc.status === 'active') {
-        hadActive.current = true;
-      } else if (inc && inc.status === 'resolved') {
-        setRestoredPending(true);
-        hadActive.current = false;
-      } else if (!inc && hadActive.current) {
-        // The incident was active and is no longer: it has been resolved.
-        setRestoredPending(true);
-        hadActive.current = false;
-      }
-      setError('');
-    } catch (err) {
-      setError(err.message || 'Could not load recovery data');
+      const failed = [];
+      if (t.status === 'fulfilled') setTasks(Array.isArray(t.value) ? t.value : t.value?.tasks || []);
+      else failed.push('tasks');
+      if (s.status === 'fulfilled') setServices(Array.isArray(s.value) ? s.value : s.value?.services || []);
+      else failed.push('services');
+      if (tech.status === 'fulfilled') {
+        setTechnicians(Array.isArray(tech.value) ? tech.value : tech.value?.technicians || []);
+      } else failed.push('technicians');
+      if (act.status === 'fulfilled') {
+        const active = act.value;
+        const inc = active?.incident || null;
+        setIncident(inc);
+        setAffected(Array.isArray(active?.services) ? active.services : []);
+        if (inc && inc.status === 'active') {
+          hadActive.current = true;
+        } else if (inc && inc.status === 'resolved') {
+          setRestoredPending(true);
+          hadActive.current = false;
+        } else if (!inc && hadActive.current) {
+          // The incident was active and is no longer: it has been resolved.
+          setRestoredPending(true);
+          hadActive.current = false;
+        }
+      } else failed.push('active incident');
+      setError(failed.map((name) => `Could not load ${name}`).join('. '));
     } finally {
       setLoading(false);
     }
